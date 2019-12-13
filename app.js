@@ -14,7 +14,30 @@ const jwt = require("jsonwebtoken");
 //server configuration
 var basePath = "";
 var config = require("./config");
+var swaggerJSDoc = require('swagger-jsdoc');
+var swaggerUi = require('swagger-ui-express');
+
 //var port = 8080;
+
+var swaggerDefinition = {
+  info: {
+    title: 'Node Swagger API',
+    version: '1.0.0',
+    description: 'Demonstrating how to describe a RESTful API with Swagger',
+  },
+  host: 'localhost:8080',
+  basePath: '/',
+};
+
+// options for the swagger docs
+var options = {
+  // import swaggerDefinitions
+  swaggerDefinition: swaggerDefinition,
+  // path to the API docs
+  apis: ['./routes/*.js'],
+};
+
+var swaggerSpec = swaggerJSDoc(options);
 
 const port = normalizaPort(process.env.PORT || "8080");
 
@@ -60,6 +83,14 @@ var fiscalIntegracaoValidacaoRoutes = require("./src/routes/fiscal/integracao/va
 // App Instance
 var app = express();
 
+
+app.get('/swagger.json', function(req, res) {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -91,7 +122,7 @@ app.use(function(req, res, next) {
     req.headers["authorization"];
   var _url = req.url.split("/");
 
-  if (_url[1] !== "users") {
+  if (_url[1] !== "users" && _url[1] !== "api-docs") {
     // decode token
     if (token) {
       if (token.startsWith("Bearer ")) {
@@ -125,6 +156,7 @@ app.use(function(req, res, next) {
   }
 });
 
+
 //app.use(basePath, todoListRoutes);
 app.use(basePath, userRoutes);
 app.use(basePath, naturezaRoutes);
@@ -140,7 +172,6 @@ app.use(basePath, fiscalCadastroClienteRoutes);
 app.use(basePath, fiscalCadastroProdutoRoutes);
 app.use(basePath, fiscalIntegracaoBaseRoutes);
 app.use(basePath, fiscalIntegracaoValidacaoRoutes);
-
 
 app.use(function(err, req, res, next) {
   if (!err.statusCode) err.statusCode = 500;
@@ -171,7 +202,6 @@ app.use(function(err, req, res, next) {
   } else {
     res.status(500).json({ message: err.message });
   }
-
   next();
 });
 
