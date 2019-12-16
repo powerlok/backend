@@ -6,9 +6,9 @@ var SimpleOracleDB = require('simple-oracledb');
  
 
 const dbConfig = {
-  host: "localhost",
-  user: "root",
-  password: "",
+  host: process.env.NODE_APP_HOSTBD,
+  user: process.env.NODE_APP_USERBD,
+  password: process.env.NODE_APP_SENHABD,
   database: "orcamento",
   connectionLimit: 10, // Default value is 10.
   waitForConnections: true, // Default value.
@@ -31,9 +31,9 @@ module.exports = {
   },
   connection_MysqlDb: (database) => {
     return mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "",
+      host: process.env.NODE_APP_HOSTBD,
+      user: process.env.NODE_APP_USERBD,
+      password: process.env.NODE_APP_SENHABD,
       database: database,
       connectionLimit: 10, // Default value is 10.
       waitForConnections: true, // Default value.
@@ -42,9 +42,9 @@ module.exports = {
   },
   connection_MysqlSync: database => {
     return  mysql.createPool({
-                      host: "localhost",
-                      user: "root",
-                      password: "",
+                      host: process.env.NODE_APP_HOSTBD,
+                      user: process.env.NODE_APP_USERBD,
+                      password: process.env.NODE_APP_SENHABD,
                       database: database,
                       connectionLimit: 10, // Default value is 10.
                       waitForConnections: true, // Default value.
@@ -54,9 +54,9 @@ module.exports = {
   connection_Mysql_Async:  (database) => {
     
     return mysql2.createPool({
-      host: "localhost",
-      user: "root",
-      password: "",
+      host: process.env.NODE_APP_HOSTBD,
+      user: process.env.NODE_APP_USERBD,
+      password: process.env.NODE_APP_SENHABD,
       database: database,
       connectionLimit: 10, // Default value is 10.
       waitForConnections: true, // Default value.
