@@ -9,7 +9,7 @@ const dbConfig = {
   host: process.env.NODE_APP_HOSTBD,
   user: process.env.NODE_APP_USERBD,
   password: process.env.NODE_APP_SENHABD,
-  database: "orcamento",
+  database: process.env.NODE_APP_DATABASE,
   connectionLimit: 10, // Default value is 10.
   waitForConnections: true, // Default value.
   queueLimit: 0 // Unlimited - default value.
