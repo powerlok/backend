@@ -39,7 +39,7 @@ var options = {
 
 var swaggerSpec = swaggerJSDoc(options);
 
-const port = normalizaPort(process.env.PORT || "8080");
+const port = normalizaPort(process.env.NODE_APP_PORT || "8080");
 
 function normalizaPort(val) {
   const port = parseInt(val, 10);
